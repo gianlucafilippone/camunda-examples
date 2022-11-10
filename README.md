@@ -27,7 +27,7 @@ https://docs.camunda.org/get-started/quick-start/install/
    - Save on file
    - Click on the upload button on the modeler and follow the process
 
-Example: `HelloWorldProcess.bpmn`
+Example BPMN: `HelloWorldProcess.bpmn`
 
 ## Deploy and start a process
 * Open Camunda dashboard -> Cockpit -> Process Definition
@@ -73,8 +73,8 @@ https://docs.camunda.org/get-started/quick-start/service-task/
 * Start the process
    - Task worker will poll the external tasks and will execute those with the subscribed topic
 
-Example BPMN: `External Task Process/ExternalTaskProcess.bpmn`
-Java code: `External Task Process/external-task-worker/`
+Example BPMN: `ExternalTaskProcess.bpmn`
+Java code: `external-task-worker/`
 
 More on https://github.com/camunda/camunda-bpm-examples/tree/master/servicetask
 
@@ -104,7 +104,8 @@ https://docs.camunda.org/get-started/spring-boot/project-setup/
    - By default, there are no Rest APIs to interact with to start the process etc.
    - Add the `camunda-bpm-spring-boot-starter-rest` dependency to the pom
 
-Example: `camundaengineapp/`
+Java Code: `camundaengineapp/`
+BPMN process: `MyAutoStartedProcess.bpmn`
 
 ## Java Delegate
 https://docs.camunda.org/manual/7.16/user-guide/process-engine/delegation-code/#java-delegate
@@ -117,7 +118,8 @@ https://docs.camunda.org/manual/7.16/user-guide/process-engine/delegation-code/#
    - Override the `execute(DelegateExecution execution)` method
 * Start the Camunda engine and start the process
 
-Example: `JavaDelegateProcess.bpmn`, `MyDelegate.java`
+Example BPMN: `JavaDelegateProcess.bpmn`
+Java Code: `MyDelegate.java`
 
 ## Make a REST call
 https://github.com/camunda/camunda-bpm-examples/tree/master/servicetask/rest-service
@@ -131,12 +133,12 @@ https://github.com/camunda/camunda-bpm-examples/tree/master/servicetask/rest-ser
       - `headers`, as map and add the entry `"Accept, "application/json"`
       - `title`, as a string or expression, then use the Spin expression to extract a piece of data from the json: `${S(response).prop ("title")}`
 * Add new dependencies in the pom
-   - connect, http client, spin, json dataformat (see `/camundaengineapp/pom.xml`)
+   - `connect`, `http-client`, `spin`, `json-dataformat` (see `/camundaengineapp/pom.xml`)
    - also add Camunda bom as dependency management
 * Deploy and start process
 
-Examples: `HttpConnectorProcess.bpmn`
-Soap version: `SoapMessageProcess.bpmn`
+Example BPMN: `HttpConnectorProcess.bpmn`
+SOAP version: `SoapMessageProcess.bpmn` (`soap-http-client` dependency required)
 
  ## Receiving Messages
 https://github.com/camunda/camunda-docs-manual/blob/master/content/reference/bpmn20/events/message-events.md
@@ -175,7 +177,8 @@ https://github.com/camunda/camunda-docs-manual/blob/master/content/reference/bpm
 * For intermediate events, the message works in exactly the same way. There is no need for anything extra.
    - See `Message-2 received` event in `MessageCorrelationProcess.bpmn`
 
-Examples: `MessageCorrelationProcess.bpmn`, `MyRestController`, `MySoapEndpoint` (SOAP version)
+Example BPMN: `MessageCorrelationProcess.bpmn`
+Java Code: `MyRestController`, `MySoapEndpoint` (SOAP version)
 
 
 ## Other guides
