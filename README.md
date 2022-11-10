@@ -54,7 +54,6 @@ https://docs.camunda.org/get-started/quick-start/service-task/
                <artifactId>camunda-external-task-client</artifactId>
                <version>${camunda.external-task-client.version}</version>
             </dependency>
-      .
       ```
    - Create a Java class with a main method
    - Add the code to handle the external task:
