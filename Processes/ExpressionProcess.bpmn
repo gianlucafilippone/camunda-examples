@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1y7qhhd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_1qs2jde" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1gr51ua</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1gr51ua" sourceRef="StartEvent_1" targetRef="ExecuteWithOutputVars" />
+    <bpmn:serviceTask id="ExecuteWithOutputVars" name="Execute with Output Variables" camunda:expression="${helloWorldService.helloWorld()}" camunda:resultVariable="taskOutput">
+      <bpmn:incoming>Flow_1gr51ua</bpmn:incoming>
+      <bpmn:outgoing>Flow_1k2p7cj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1k2p7cj" sourceRef="ExecuteWithOutputVars" targetRef="PrintReturnedVariable" />
+    <bpmn:scriptTask id="PrintReturnedVariable" name="Print Returned Variable" scriptFormat="javascript">
+      <bpmn:incoming>Flow_1k2p7cj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0my32rz</bpmn:outgoing>
+      <bpmn:script>var system = java.lang.System;
+system.out.println("Returned variable value: " + execution.getVariable("taskOutput"));</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0my32rz" sourceRef="PrintReturnedVariable" targetRef="ExecutePassingParameters" />
+    <bpmn:serviceTask id="ExecutePassingParameters" name="Execute Passing Parameters" camunda:expression="${helloWorldService.someOtherMethod(execution)}">
+      <bpmn:incoming>Flow_0my32rz</bpmn:incoming>
+      <bpmn:outgoing>Flow_09eqb4b</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_09eqb4b" sourceRef="ExecutePassingParameters" targetRef="PrintInjectedVariable" />
+    <bpmn:endEvent id="Event_09dkpfb">
+      <bpmn:incoming>Flow_1h35t6t</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1h35t6t" sourceRef="PrintInjectedVariable" targetRef="Event_09dkpfb" />
+    <bpmn:scriptTask id="PrintInjectedVariable" name="Print Injected Variable" scriptFormat="javascript">
+      <bpmn:incoming>Flow_09eqb4b</bpmn:incoming>
+      <bpmn:outgoing>Flow_1h35t6t</bpmn:outgoing>
+      <bpmn:script>var system = java.lang.System;
+system.out.println("Injected variable value: " + execution.getVariable("injectedVar"));</bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1qs2jde">
+      <bpmndi:BPMNEdge id="Flow_1k2p7cj_di" bpmnElement="Flow_1k2p7cj">
+        <di:waypoint x="367" y="117" />
+        <di:waypoint x="420" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gr51ua_di" bpmnElement="Flow_1gr51ua">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="267" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0my32rz_di" bpmnElement="Flow_0my32rz">
+        <di:waypoint x="520" y="117" />
+        <di:waypoint x="580" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09eqb4b_di" bpmnElement="Flow_09eqb4b">
+        <di:waypoint x="680" y="117" />
+        <di:waypoint x="740" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1h35t6t_di" bpmnElement="Flow_1h35t6t">
+        <di:waypoint x="840" y="117" />
+        <di:waypoint x="902" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05cpolw_di" bpmnElement="ExecuteWithOutputVars">
+        <dc:Bounds x="267" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1k433yy_di" bpmnElement="PrintReturnedVariable">
+        <dc:Bounds x="420" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1cqpb3w_di" bpmnElement="ExecutePassingParameters">
+        <dc:Bounds x="580" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_09dkpfb_di" bpmnElement="Event_09dkpfb">
+        <dc:Bounds x="902" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_004063b_di" bpmnElement="PrintInjectedVariable">
+        <dc:Bounds x="740" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

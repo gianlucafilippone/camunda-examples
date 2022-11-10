@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1ku7uls" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_05rtoj8" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1p8av4n</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1p8av4n" sourceRef="StartEvent_1" targetRef="SoapServiceTask" />
+    <bpmn:serviceTask id="SoapServiceTask" name="SOAP Service Task">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="payload">&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bpd="http://bpd.disim.univaq.it/"&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;bpd:op&gt;
+         &lt;!--Optional:--&gt;
+         &lt;arg0&gt;Hello World&lt;/arg0&gt;
+      &lt;/bpd:op&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+
+</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/soap+xml;charset=UTF-8;action=""</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="url">http://localhost:6060/SimpleService/simpleinterface</camunda:inputParameter>
+            <camunda:outputParameter name="soapResponse">${S(response).childElement("Body").childElement("http://bpd.disim.univaq.it/", "opResponse").textContent()}</camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>soap-http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1p8av4n</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kjwsay</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1kjwsay" sourceRef="SoapServiceTask" targetRef="PrintResult" />
+    <bpmn:scriptTask id="PrintResult" name="Print Result" scriptFormat="javascript">
+      <bpmn:incoming>Flow_1kjwsay</bpmn:incoming>
+      <bpmn:outgoing>Flow_17gimud</bpmn:outgoing>
+      <bpmn:script>var system = java.lang.System;
+system.out.println(execution.getVariable("soapResponse"));</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="Event_0p2tg05">
+      <bpmn:incoming>Flow_17gimud</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_17gimud" sourceRef="PrintResult" targetRef="Event_0p2tg05" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_05rtoj8">
+      <bpmndi:BPMNEdge id="Flow_1p8av4n_di" bpmnElement="Flow_1p8av4n">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="270" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kjwsay_di" bpmnElement="Flow_1kjwsay">
+        <di:waypoint x="370" y="97" />
+        <di:waypoint x="430" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17gimud_di" bpmnElement="Flow_17gimud">
+        <di:waypoint x="530" y="97" />
+        <di:waypoint x="592" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1647yxh_di" bpmnElement="SoapServiceTask">
+        <dc:Bounds x="270" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0t3w9gp_di" bpmnElement="PrintResult">
+        <dc:Bounds x="430" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0p2tg05_di" bpmnElement="Event_0p2tg05">
+        <dc:Bounds x="592" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

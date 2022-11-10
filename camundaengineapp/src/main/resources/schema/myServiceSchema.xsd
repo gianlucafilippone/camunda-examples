@@ -1,0 +1,21 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bpd.disim.univaq.it/" elementFormDefault="qualified" targetNamespace="http://bpd.disim.univaq.it/" version="1.0">
+
+	<xs:element name="myOperationRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="name" type="xs:string" />
+				<xs:element name="surname" type="xs:string" />
+				<xs:element name="address" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="myOperationResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="returnValue" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

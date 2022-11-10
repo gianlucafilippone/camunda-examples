@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0alansu" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="MessageProcess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Message-1 received">
+      <bpmn:outgoing>Flow_0aex3q8</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0bgzdt9" messageRef="Message_1cspx3k" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0aex3q8" sourceRef="StartEvent_1" targetRef="SayThatProcessStarted" />
+    <bpmn:scriptTask id="SayThatProcessStarted" name="Say That Process Started" scriptFormat="javascript">
+      <bpmn:incoming>Flow_0aex3q8</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qviplz</bpmn:outgoing>
+      <bpmn:script>var system = java.lang.System;
+var businessKey = execution.businessKey;
+var receivedVar = execution.getVariable("receivedVar");
+system.out.println("Process Started (businessKey: " + businessKey + ", receivedVar: " + receivedVar + ")");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_1qviplz" sourceRef="SayThatProcessStarted" targetRef="Event_1o072c5" />
+    <bpmn:sequenceFlow id="Flow_1m3fbo2" sourceRef="Event_1o072c5" targetRef="SayThatProcessResumed" />
+    <bpmn:scriptTask id="SayThatProcessResumed" name="Say That Process Resumed" scriptFormat="javascript">
+      <bpmn:incoming>Flow_1m3fbo2</bpmn:incoming>
+      <bpmn:outgoing>Flow_15waqm3</bpmn:outgoing>
+      <bpmn:script>var system = java.lang.System;
+system.out.println("Process Resumed (" + execution.businessKey + ")");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="Event_0h1bqgo">
+      <bpmn:incoming>Flow_15waqm3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_15waqm3" sourceRef="SayThatProcessResumed" targetRef="Event_0h1bqgo" />
+    <bpmn:intermediateCatchEvent id="Event_1o072c5" name="Message-2 received">
+      <bpmn:incoming>Flow_1qviplz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1m3fbo2</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0szvmx8" messageRef="Message_0yj918k" />
+    </bpmn:intermediateCatchEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_1cspx3k" name="message-1" />
+  <bpmn:message id="Message_0yj918k" name="message-2" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="MessageProcess">
+      <bpmndi:BPMNEdge id="Flow_0aex3q8_di" bpmnElement="Flow_0aex3q8">
+        <di:waypoint x="188" y="150" />
+        <di:waypoint x="240" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qviplz_di" bpmnElement="Flow_1qviplz">
+        <di:waypoint x="340" y="150" />
+        <di:waypoint x="392" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1m3fbo2_di" bpmnElement="Flow_1m3fbo2">
+        <di:waypoint x="428" y="150" />
+        <di:waypoint x="480" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15waqm3_di" bpmnElement="Flow_15waqm3">
+        <di:waypoint x="580" y="150" />
+        <di:waypoint x="632" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0ccnjsp_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="143" y="175" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07r3h52_di" bpmnElement="SayThatProcessStarted">
+        <dc:Bounds x="240" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15oe1qu_di" bpmnElement="SayThatProcessResumed">
+        <dc:Bounds x="480" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0h1bqgo_di" bpmnElement="Event_0h1bqgo">
+        <dc:Bounds x="632" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1iq8ssr_di" bpmnElement="Event_1o072c5">
+        <dc:Bounds x="392" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="384" y="175" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
